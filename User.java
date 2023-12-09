@@ -58,12 +58,9 @@ public class User {
         return created_at;
     }
 
+    // Verify whether username and login are correct
     public boolean verifyLogin(String userName, String password) {
         return this.userName.equals(userName) && this.password.equals(password);
-    }
-
-    public void findProduct() {
-        // Implementation to be added later
     }
 
     // Get orders

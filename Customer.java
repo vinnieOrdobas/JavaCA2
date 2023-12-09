@@ -29,6 +29,7 @@ public class Customer extends User {
         this.carts.add(new Cart(1, this.getId(), Cart.CartStatus.OPEN));
     }
 
+    // Login method
     public void login(String username, String password) {
         if (super.verifyLogin(username, password)) {
             // Pseudocode for logging the customer into the system
@@ -37,7 +38,6 @@ public class Customer extends User {
     }
 
     // Getters
-
     public String getCustomerName() {
         return customerName;
     }
@@ -90,27 +90,34 @@ public class Customer extends User {
                 return cart;
             }
         }
+        // Return error message if cart not found
         throw new IllegalArgumentException("Cart with id " + cartId + " not found.");
     }
 
-    // Get current cart (cart with status OPEN)
+    // Get current cart (cart with status OPEN) if no cart is found, create a new cart and return the new cart
     public Cart getCurrentCart() {
+        // Try to find an open cart
         for (Cart cart : this.carts) {
             if (cart.getStatus() == Cart.CartStatus.OPEN) {
                 return cart;
             }
         }
-        throw new IllegalArgumentException("No open cart found.");
+    
+        // If no open cart is found, create a new one
+        Cart newCart = this.createNewCart();
+        return newCart;
     }
 
     // Create a new cart for the customer
-    public void createNewCart() {
+    private Cart createNewCart() {
         int newCartId = (this.carts.isEmpty()) ? 1 : this.carts.get(this.carts.size() - 1).getCartId() + 1;
         Cart newCart = new Cart(newCartId, this.getId(), Cart.CartStatus.OPEN);
         this.carts.add(newCart);
+        return newCart;
     }
 
 
+    // Create a new order from the current cart
     public void createOrder() {
         // Create a new order from the current cart
         Cart currentCart = this.getCurrentCart();
@@ -142,5 +149,31 @@ public class Customer extends User {
 
         // Create a new cart for the customer
         this.createNewCart();
+    }
+
+    // Pay for an order
+    public void makePayment(int orderId, String shippingInfo, String creditCardNumber) {
+        Order orderToPay = null;
+        
+        // Find the order to pay
+        for (Order order : this.getOrders()) {
+            if (order.getOrderId() == orderId) {
+                orderToPay = order;
+                break;
+            }
+        }
+        // Return error message if order not found
+        if (orderToPay == null) {
+            throw new IllegalArgumentException("Order not found.");
+        }
+    
+        // Get order total amount
+        float totalAmount = orderToPay.getTotalAmount();
+    
+        // Output the payment message
+        System.out.println("Order of total amount " + totalAmount + " was successfully paid with credit card " + this.creditCardNumber + " and it'll be shipped to " + shippingInfo + ".");
+    
+        // Update the order's status to PAID
+        orderToPay.updateStatus(Order.Status.PAID);
     }
 }

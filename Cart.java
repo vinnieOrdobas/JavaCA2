@@ -4,7 +4,6 @@
 *09/12/2023
 */
 
-
 import java.util.HashMap;
 
 public class Cart {
@@ -38,24 +37,26 @@ public class Cart {
         return products;
     }
 
-    public void setProducts(HashMap<Product, Integer> products) {
-        this.products = products;
-    }
-
     public double getTotalCost() {
         return totalCost;
     }
 
     public void addProduct(Product product, int quantity) {
         products.put(product, quantity);
+        // Update total cost
+        updateTotalCost();
     }
 
     public void deleteProduct(Product product) {
         products.remove(product);
+        // Update total cost
+        updateTotalCost();
     }
 
     public void editQuantity(Product product, int newQuantity) {
         products.put(product, newQuantity);
+        // Update total cost
+        updateTotalCost();
     }
 
     public void updateStatus(CartStatus newStatus) {
