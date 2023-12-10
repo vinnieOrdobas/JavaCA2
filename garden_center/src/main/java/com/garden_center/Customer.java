@@ -1,6 +1,6 @@
-package garden_center.src.main.java.com.garden_center;
+package com.garden_center;
 /*
-*User.java
+*Customer.java
 *@author Vinnie Ordobas
 *09/12/2023
 */

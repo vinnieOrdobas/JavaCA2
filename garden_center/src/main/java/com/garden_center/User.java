@@ -1,4 +1,4 @@
-package garden_center.src.main.java.com.garden_center;
+package com.garden_center;
 /*
 *User.java
 *@author Vinnie Ordobas
